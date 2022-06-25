@@ -30,7 +30,7 @@ day_before = str(today - dt.timedelta(days=2))
 yesterday_stock = float(stock_data[yesterday]["4. close"])
 day_before_stock = float(stock_data[day_before]["4. close"])
 percentage_change = round((yesterday_stock - day_before_stock)/yesterday_stock * 100, 2)
-if abs(percentage_change) > 0:
+if abs(percentage_change) > 5:
     NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
     NEWS_API_URL = "https://newsapi.org/v2/everything"
     news_parameters = {
@@ -42,7 +42,7 @@ if abs(percentage_change) > 0:
     response.raise_for_status()
     data = response.json()
     news = data["articles"][:3]
-    if percentage_change < 5:
+    if percentage_change > 5:
         change = f"TSLA: 🔺{percentage_change}%"
     if percentage_change < -5:
         change = f"TSLA: 🔻{abs(percentage_change)}%"
